@@ -1,0 +1,89 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+using System;
+using System.Linq;
+using System.Collections;
+using UnityEditor;
+
+[CustomEditor(typeof(LanguageText), true)]
+public class LanguageEditor : UnityEditor.Editor
+{
+    protected LanguageText Target;
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        Target = target as LanguageText;
+
+        if (Application.isPlaying)
+            return;
+
+        var service = LanguageService.Instance;
+        if (service == null || service.LanguageKeyValue == null)
+        {
+            var p = EditorGUILayout.TextField("Key", Target.Key);
+            if (p != Target.Key)
+            {
+                Target.Key = p;
+                EditorUtility.SetDirty(target);
+            }
+            EditorGUILayout.LabelField("Error ", "ILocalizationService Not Found");
+        }
+        else
+        {
+            var languages = service.LanguageNames.ToArray();
+            var languageIdx = Array.IndexOf(languages, service.LanguageNames[service.CurrentLanguage]);
+            var language = EditorGUILayout.Popup("Language", languageIdx, languages);
+            if (language != languageIdx)
+            {
+                Target.Language = languages[language];
+                //service.Language = new LanguageInfo(languages[language]);
+                service.CurrentLanguage = language;
+                EditorUtility.SetDirty(target);
+            }
+            if (!string.IsNullOrEmpty(Target.Key))
+            {
+                Target.Value = service.GetStringByKey(Target.label, Target.Key);
+            }
+            var files = service.GetValueByFile.Select(o => o.Key).ToArray();
+
+            var findex = Array.IndexOf(files, Target.File);
+            var fi = EditorGUILayout.Popup("File", findex, files);
+
+            if (findex == -1 || fi != findex)
+            {
+                Target.File = files[0];
+                EditorUtility.SetDirty(target);
+            }
+            //
+            if (!string.IsNullOrEmpty(Target.File)) 
+            {
+                var words = service.GetValueByFile[Target.File].Select(o => o.Key).ToArray();
+
+                Rect toggleRect = EditorGUILayout.GetControlRect();
+                UnityEngine.GUI.Label(toggleRect, "Key");
+                toggleRect.xMin += EditorGUIUtility.labelWidth;
+                if (UnityEngine.GUI.Button(toggleRect, Target.Key))
+                {
+                    Language.LanguageKeySelectWindow.OpenKeySelectWindow(words, Target);
+                }
+                // var index = Array.IndexOf(words, Target.Key);
+
+                // var i = EditorGUILayout.Popup("Keys", index, words);
+
+                // if (i != index)
+                // {
+                //     Target.Key = words[i];
+                //     Target.Value = service.GetStringByKey(Target.Key, string.Empty);
+                //     EditorUtility.SetDirty(target);
+                // }
+
+            }
+            if (!string.IsNullOrEmpty(Target.Value))
+            {
+                EditorGUILayout.LabelField("Value ", Target.Value);
+                Target.GetComponent<UnityEngine.UI.Text>().text = Target.Value;
+            }
+        }
+    }
+}

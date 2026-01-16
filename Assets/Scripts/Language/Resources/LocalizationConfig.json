@@ -1,0 +1,28 @@
+//语言配置文件
+//所有支持的语言文件列在此处，json格式（key:语言名）；key可以任意，默认语言的key设置为“0”。
+{
+  "0": "English",
+  "1": "German",
+  "2": "French",
+  "3": "Spanish",
+  "4": "Italian",
+  "5": "Dutch",
+  "6": "Danish",
+  "7": "Portuguese",
+  "8": "Polish",
+  "9": "Swedish",
+  "10": "Czech",
+  "11": "Hungarian",
+  "12": "Japanese",
+  "13": "Finnish",
+  "14": "Norwegian",
+  "15": "Russian",
+  "16": "Korean",
+  "17": "Vietnamese",
+  "18": "Arabic",
+  "19": "Hindi",
+  "20": "Indonesian",
+  "21": "Thai",
+  "22": "Turkish",
+  "23": "Urdu"
+}
