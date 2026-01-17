@@ -100,3 +100,24 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# =========================
+# HybridCLR
+# =========================
+
+# 本机 / 平台 / IL2CPP 强相关生成物（必须忽略）
+/HybridCLRData/LocalIl2CppData*/
+/HybridCLRData/LocalBuildIl2CppData*/
+/HybridCLRData/AssembliesPostIl2CppStrip/
+/HybridCLRData/Intermediate/
+/HybridCLRData/**/Temp/
+
+# CompileDll 生成的中间程序集（可再生）
+/HybridCLRData/Assemblies/
+
+# HybridCLR 子仓库（如果是 submodule 或复制进来的）
+/hybridclr_repo/
+
+# HybridCLR 编译过程产生的临时文件
+/Temp/HybridCLR*
+
